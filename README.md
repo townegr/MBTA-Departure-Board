@@ -1,4 +1,5 @@
-# mbta_departure_board
+# MBTA Departure Board
+Utilizing MBTA API: https://www.mbta.com/developers/v3-api
 
 ## Project setup
 ```
