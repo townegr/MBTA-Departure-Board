@@ -11,6 +11,7 @@
     </div>
     <div class="container departures">
       <h3>{{ `${formatName(this.station.name, true)} TRAIN INFORMATION` }}</h3>
+      <div id="shot-clock">{{ `Refreshing in ${timer} seconds` }}</div>
       <h4 class="alignLeft">{{ this.currentDay }}</h4>
       <h4 class="alignRight">Current Time</h4>
       <div id="datetime">
@@ -50,7 +51,7 @@
 <script>
 import StationButton from "./StationButton";
 import Departure from "../core/departure";
-import { Stations } from "../core/types";
+import { Stations, ShotClock } from "../core/types";
 import moment from "moment";
 
 export default {
@@ -68,13 +69,38 @@ export default {
       departures: [],
       currentDay: moment().format("dddd"),
       currentDate: moment().format("M-D-YYYY"),
-      currentTime: moment().format("h:mm A")
+      currentTime: moment().format("h:mm A"),
+      shotClock: ShotClock.MEDIUM,
+      clock: null
     };
+  },
+  computed: {
+    timer: function() {
+      return this.shotClock;
+    }
   },
   methods: {
     loadData() {
+      this.departures = [];
       let departure = new Departure(this.station.id);
       departure.getDepartures(this.departures);
+      clearInterval(this.clock);
+      this.updateDateTime();
+      this.shotClock = ShotClock.MEDIUM;
+      this.clock = setInterval(this.countDown, 1000);
+    },
+    countDown() {
+      if (this.shotClock > 0) {
+        this.shotClock--;
+        return;
+      }
+
+      this.loadData();
+    },
+    updateDateTime() {
+      this.currentDay = moment().format("dddd");
+      this.currentDate = moment().format("M-D-YYYY");
+      this.currentTime = moment().format("h:mm A");
     },
     getStation(place) {
       this.station.name = Object.keys(Stations).find(

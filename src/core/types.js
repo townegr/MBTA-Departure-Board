@@ -27,4 +27,10 @@ const Direction = Object.freeze({
   INBOUND: 1
 });
 
-export { DepartureData, Stations, RouteType, Direction };
+const ShotClock = Object.freeze({
+  SLOW: 120,
+  MEDIUM: 60,
+  FAST: 30
+});
+
+export { DepartureData, Direction, RouteType, ShotClock, Stations };
