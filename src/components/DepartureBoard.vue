@@ -130,7 +130,9 @@ export default {
 body {
   background-color: black;
 }
-
+.table {
+  margin-bottom: 5%;
+}
 .table-borderless > tbody > tr > td,
 .table-borderless > tbody > tr > th,
 .table-borderless > tfoot > tr > td,
@@ -139,19 +141,16 @@ body {
 .table-borderless > thead > tr > th {
   border: none;
 }
-
 table thead th {
   font-size: 16px;
   color: #cfcfcf;
 }
-
 table tbody td,
 table tbody th {
   font-size: 20px;
   font-weight: bold;
   color: #97ff47;
 }
-
 .departures {
   margin-top: 5%;
 }
