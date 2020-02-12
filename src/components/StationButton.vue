@@ -1,5 +1,5 @@
 <template>
-  <button class="stat-btn btn btn-primary" @click="getStation()">
+  <button class="stat-btn btn btn-secondary" @click="getStation()">
     <slot></slot>
   </button>
 </template>

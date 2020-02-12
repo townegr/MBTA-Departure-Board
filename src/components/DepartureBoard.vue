@@ -10,16 +10,23 @@
       </div>
     </div>
     <div class="container departures">
-      <h3>MBTA Departure Board</h3>
-      <h4>( {{ formatName(this.station.name) }} )</h4>
-      <table class="table">
+      <h3>{{ `${formatName(this.station.name, true)} TRAIN INFORMATION` }}</h3>
+      <h4 class="alignLeft">{{ this.currentDay }}</h4>
+      <h4 class="alignRight">Current Time</h4>
+      <div id="datetime">
+        <div>
+          <p class="alignLeft">{{ this.currentDate }}</p>
+        </div>
+        <p class="alignRight">{{ this.currentTime }}</p>
+      </div>
+      <table class="table table-borderless table-striped table-dark table-sm">
         <thead>
           <tr>
             <th scope="col">Carrier</th>
             <th scope="col">Time</th>
             <th scope="col">Destination</th>
             <th scope="col">Train#</th>
-            <th scope="col">Track</th>
+            <th scope="col">Track#</th>
             <th scope="col">Status</th>
           </tr>
         </thead>
@@ -27,12 +34,12 @@
           <tr v-for="departure in departures" v-bind:key="departure.id">
             <th scope="row">{{ departure.carrier }}</th>
             <td>
-              {{ departure.time | moment("h:mm:ss a") }}
+              {{ departure.time | moment("h:mm:ss A") }}
             </td>
-            <td>{{ departure.route.replace(/CR-/, "") }}</td>
+            <td>{{ departure.route.replace(/CR-/, "").toUpperCase() }}</td>
             <td>{{ departure.train }}</td>
             <td>{{ departure.track }}</td>
-            <td>{{ departure.status }}</td>
+            <td>{{ departure.status.toUpperCase() }}</td>
           </tr>
         </tbody>
       </table>
@@ -44,6 +51,7 @@
 import StationButton from "./StationButton";
 import Departure from "../core/departure";
 import { Stations } from "../core/types";
+import moment from "moment";
 
 export default {
   name: "DepartureBoard",
@@ -57,7 +65,10 @@ export default {
         name: "South Station",
         id: "place-sstat"
       },
-      departures: []
+      departures: [],
+      currentDay: moment().format("dddd"),
+      currentDate: moment().format("M-D-YYYY"),
+      currentTime: moment().format("h:mm A")
     };
   },
   methods: {
@@ -73,12 +84,14 @@ export default {
       this.departures = [];
       this.loadData();
     },
-    formatName(name) {
-      return name
-        .toLowerCase()
-        .split(/[\s,_]+/)
-        .map(w => w[0].toUpperCase() + w.substr(1))
-        .join(" ");
+    formatName(name, allcaps = false) {
+      let formatted = name.toLowerCase().split(/[\s,_]+/);
+
+      if (allcaps) {
+        return formatted.map(w => w.toUpperCase()).join(" ");
+      } else {
+        return formatted.map(w => w[0].toUpperCase() + w.substr(1)).join(" ");
+      }
     }
   },
   mounted: function() {
@@ -88,6 +101,31 @@ export default {
 </script>
 
 <style>
+body {
+  background-color: black;
+}
+
+.table-borderless > tbody > tr > td,
+.table-borderless > tbody > tr > th,
+.table-borderless > tfoot > tr > td,
+.table-borderless > tfoot > tr > th,
+.table-borderless > thead > tr > td,
+.table-borderless > thead > tr > th {
+  border: none;
+}
+
+table thead th {
+  font-size: 16px;
+  color: #cfcfcf;
+}
+
+table tbody td,
+table tbody th {
+  font-size: 20px;
+  font-weight: bold;
+  color: #97ff47;
+}
+
 .departures {
   margin-top: 5%;
 }
@@ -99,6 +137,25 @@ export default {
   right: 10px;
 }
 h3 {
-  margin-bottom: 3%;
+  margin-top: 8%;
+}
+h4 {
+  float: right;
+}
+#datetime {
+  clear: both;
+  color: #b8ae00;
+}
+.alignLeft {
+  color: #b8ae00;
+  font-size: 25px;
+  font-weight: 800;
+  float: left;
+}
+.alignRight {
+  color: #b8ae00;
+  font-size: 25px;
+  font-weight: 800;
+  float: right;
 }
 </style>
