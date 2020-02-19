@@ -1,12 +1,17 @@
 const DepartureData = Object.freeze({
   DEFAULT: {
-    carrier: "TBD",
-    time: "TBD",
-    route: "TBD",
-    train: "TBD",
-    track: "TBD",
-    status: "TBD"
+    carrier: "--",
+    time: "--",
+    route: "--",
+    train: "--",
+    track: "--",
+    status: "--"
   }
+});
+
+const Carrier = Object.freeze({
+  MBTA: "MBTA",
+  AMTRAK: "AMTRAK"
 });
 
 const Stations = Object.freeze({
@@ -14,7 +19,7 @@ const Stations = Object.freeze({
   NORTH_STATION: "place-north"
 });
 
-const RouteType = Object.freeze({
+const Transportation = Object.freeze({
   LIGHT_RAIL: 0,
   HEAVY_RAIL: 1,
   COMMUTER_RAIL: 2,
@@ -33,4 +38,11 @@ const ShotClock = Object.freeze({
   FAST: 30
 });
 
-export { DepartureData, Direction, RouteType, ShotClock, Stations };
+export {
+  Carrier,
+  DepartureData,
+  Direction,
+  Transportation,
+  ShotClock,
+  Stations
+};

@@ -9,15 +9,19 @@ export default class Prediction {
         route: routes.ids.join(","),
         direction_id: direction
       },
-      include: "vehicle,stop",
+      include: "vehicle,route,stop",
       sort: "departure_time"
     });
   }
 
   get all() {
     return this._predictions.data.filter(el => {
+      let depTime = el.attributes.departure_time;
       let status = el.attributes.status;
-      return status != undefined && status != "Departed";
+
+      return (
+        depTime != undefined && status != undefined && status != "Departed"
+      );
     });
   }
 
